@@ -2,7 +2,7 @@
 import pandas as pd
 import geopandas
 from shapely.geometry import Point, Polygon
-import tqdm
+from tqdm import tqdm
 import boto3
 from io import StringIO 
 
@@ -30,10 +30,12 @@ def get_ntacode(columnlat,columnlong, datanta, dataori):
     '''
         Return dataframe original with the information of NTA Code. 
     '''
-    for idx in tqdm(range(len(dataori))): 
+    print("Data Origen: "+str(len(dataori[columnlat])))
+    print("Data NTA: "+str(len(datanta['geometry'])))
+    for idx in tqdm(range(len(dataori[columnlat]))): 
         try:
             dataori['coord'][idx]= make_point(dataori[columnlat][idx], dataori[columnlong][idx])
-            for idy in range(len(datanta)):
+            for idy in range(len(datanta['geometry'])):
                 if dataori['coord'][idx].within(datanta['geometry'][idy]):
                     dataori['ntacode'][idx] = datanta['ntacode'][idy]
         except:                   
