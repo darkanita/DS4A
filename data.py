@@ -26,18 +26,22 @@ def make_point(latitude, longitude) :
     '''
     return Point( (longitude,latitude) )
 
+def search_ntacode(coord,datanta):
+    ntacode = None
+    for idy in range(len(datanta['geometry'])):
+        if coord.within(datanta['geometry'][idy]):
+            ntacode= datanta['ntacode'][idy]
+            return ntacode
+    return ntacode
+
 def get_ntacode(columnlat,columnlong, datanta, dataori):
     '''
         Return dataframe original with the information of NTA Code. 
     '''
     print("Data Origen: "+str(len(dataori[columnlat])))
     print("Data NTA: "+str(len(datanta['geometry'])))
-    for idx in tqdm(range(len(dataori[columnlat]))): 
-        try:
-            dataori['coord'][idx]= make_point(dataori[columnlat][idx], dataori[columnlong][idx])
-            for idy in range(len(datanta['geometry'])):
-                if dataori['coord'][idx].within(datanta['geometry'][idy]):
-                    dataori['ntacode'][idx] = datanta['ntacode'][idy]
-        except:                   
-            print("Error")
+
+    dataori['coord'] = dataori.apply(lambda x: make_point(x['pickup_latitude'], x['pickup_longitude']), axis=1)
+    dataori['ntacode'] = dataori.apply(lambda x: search_ntacode(x['coord'],datanta), axis=1)
+    
     return dataori
