@@ -4,15 +4,17 @@ from data import *
 pd.options.mode.chained_assignment = None 
 
 def main(aws_access_key_id,aws_secret_access_key):
-    bucket = 'DS4A'
+    bucket = 'ds4adata'
+    folder = 'Datathon/'
     # NTA
     NTA = geopandas.read_file('https://ds4adata.s3-sa-east-1.amazonaws.com/Datathon/NTA+map.geojson')
+    print(NTA.head(1))
     print("NTA Read: "+str(NTA.shape))
     #UBER 2014
     uber_trips_2014 = pd.read_csv('https://ds4adata.s3-sa-east-1.amazonaws.com/Datathon/uber_trips_2014.csv')
     print(uber_trips_2014.head(1))
     print("UBER 2014 Read: "+str(uber_trips_2014.shape))
-    key = 'uber_trips_2014.csv'
+    key = folder+'uber_trips_2014.csv'
     uber_trips_2014['coord']=None
     uber_trips_2014['ntacode']=None
     uber_trips_2014_new = get_ntacode('pickup_latitude','pickup_longitude', NTA, uber_trips_2014)
