@@ -41,7 +41,7 @@ def get_ntacode(columnlat,columnlong, datanta, dataori):
     print("Data Origen: "+str(len(dataori[columnlat])))
     print("Data NTA: "+str(len(datanta['geometry'])))
 
-    dataori['coord'] = dataori.apply(lambda x: make_point(x['pickup_latitude'], x['pickup_longitude']), axis=1)
-    dataori['ntacode'] = dataori.apply(lambda x: search_ntacode(x['coord'],datanta), axis=1)
-    
+    #dataori['coord'] = dataori.apply(lambda x: make_point(x['pickup_latitude'], x['pickup_longitude']), axis=1)
+    #dataori['ntacode'] = dataori.apply(lambda x: search_ntacode(x['coord'],datanta), axis=1)
+    dataori['ntacode'] = dataori.apply(lambda x: search_ntacode(make_point(x['pickup_latitude'], x['pickup_longitude']),datanta), axis=1)
     return dataori
