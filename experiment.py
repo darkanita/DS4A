@@ -40,7 +40,7 @@ def main(aws_access_key_id,aws_secret_access_key):
     mta_trips_new = get_ntacode('latitude','longitude', NTA, mta_trips)
     uploadObj = upload_data(mta_trips_new,bucket,key,aws_access_key_id,aws_secret_access_key)
     print('MTA Updated: '+ uploadObj)
-    print("MTA Updated: "+str(green_trips_new.shape))
+    print("MTA Updated: "+str(mta_trips_new.shape))
     print(mta_trips_new.isnull().sum())
 
    
