@@ -38,8 +38,6 @@ def main(aws_access_key_id,aws_secret_access_key):
     print(mta_trips.dtypes)
     key = folder+'mta_trips.csv'
     mta_trips['ntacode']=None
-    mta_trips.latitude.astype(float)
-    mta_trips.longitude.astype(float)
     mta_trips_new = get_ntacode('latitude','longitude', NTA, mta_trips)
     uploadObj = upload_data(mta_trips_new,bucket,key,aws_access_key_id,aws_secret_access_key)
     print('MTA Updated: '+ uploadObj)
